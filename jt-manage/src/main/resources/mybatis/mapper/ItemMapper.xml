@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!--配置时需要和业务接口保持一致  -->
+<mapper namespace="com.jt.manage.mapper.ItemMapper">
+
+	<select id="findCount" resultType="int">
+	select count(*) from tb_item
+	</select>
+	
+	<select id="findItemByPage" resultType="Item">
+	<!-- ctrl+shift+y  转小写
+		 ctrl+shift+x  转大写
+	 -->
+	select * from tb_item 
+	order by created desc
+	limit #{start},#{rows}
+	</select>
+	
+	<!-- collection中参数分析
+		 collection="ids"
+		 1,如果
+	 -->
+	<update id="updateByIds">
+	update tb_item set status=#{status},updated=now() where id in(
+	<foreach collection="ids" item="item" separator="," >
+	#{item}
+	</foreach>
+	)
+	</update>
+	
+	
+	
+</mapper>
